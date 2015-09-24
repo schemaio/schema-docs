@@ -3,9 +3,12 @@
 0 - Bootstrapping
 
 ##Package file: package.js
+
+Create Package file for npm in your projects root directory.
+
 ```
 {
-  "name": "Your App",
+  "name": "<Your App>",
   "version": "0.0.0",
   "description": "",
   "main": "server.js",
@@ -16,6 +19,7 @@
     "express": "~3.2.4",
     "schema-client": "^1.2.5",
     "socket.io": "~0.9.14",
+    "lodash": "^3.10.1",
     "uglify": "^0.1.5"
   },
   "devDependencies": {
@@ -27,11 +31,16 @@
     "grunt-express-server": "^0.5.1"
   }
 }
+```
 
-
+Then run
+```
+npm install
 ```
 
 ##1 - Node Server Setup: server.js
+
+Create a server.js file 
 ```
 var http = require('http');
 var path = require('path');
@@ -56,20 +65,18 @@ var io = socketio.listen(server);
 router.use(bodyParser.urlencoded({
   extended: true
 }));
-router.use(express.static(path.resolve(__dirname, 'client')));
+router.use(express.static(path.resolve(__dirname, '<directory -location>')));
 router.use(passport.initialize());
 router.use(passport.session());
-
-
-
 ```
 
 
 
 ##2 - REST Middleware and Custom Services: server.js -continued
+
+Login Example:
 ```
 router.post('/login/', function(req, res, next) {
-  console.log(req.body)
 
   client.get('/accounts/{email}', {
     email: req.body.username,
@@ -77,9 +84,7 @@ router.post('/login/', function(req, res, next) {
   }, function(records) {
     var authenticate = function() {
       if (records) {
-        var token = jwt.sign({
-          username: req.body.username
-        }, jwtSecret);
+        //Send back token or Session
         res.json({
           token: token
         });
@@ -93,10 +98,12 @@ router.post('/login/', function(req, res, next) {
     };
     authenticate();
   });
-
-
+  
 });
+```
 
+Sign Up Example:
+```
 router.post('/signup/', function(req, res, next) {
 
   client.get('/accounts/', {}, function(records) {
@@ -130,7 +137,7 @@ router.post('/signup/', function(req, res, next) {
   });
 
 });
-
 ```
+
 
 
