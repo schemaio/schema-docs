@@ -1,11 +1,11 @@
-## Getting Started with Schema
+#Getting Started with Schema
 
-0 - Bootstrapping
 
-##Package file: package.js
+##Bootstrapping: 
 
-Create Package file for npm in your projects root directory.
+###Create Package file for npm in your projects root directory.
 
+package.js
 ```
 {
   "name": "<Your App>",
@@ -38,9 +38,10 @@ Then run
 npm install
 ```
 
-##1 - Node Server Setup: server.js
+##1 - Node Server Setup:
 
-Create a server.js file 
+###Create a server.js file 
+server.js
 ```
 var http = require('http');
 var path = require('path');
@@ -74,7 +75,7 @@ router.use(passport.session());
 
 ##2 - REST Middleware and Custom Services: server.js -continued
 
-Login Example:
+###Login Example:
 ```
 router.post('/login/', function(req, res, next) {
 
@@ -102,7 +103,7 @@ router.post('/login/', function(req, res, next) {
 });
 ```
 
-Sign Up Example:
+###Sign Up Example:
 ```
 router.post('/signup/', function(req, res, next) {
 
