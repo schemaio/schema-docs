@@ -31,7 +31,7 @@
 
 ```
 
-##1 - Node Server Setup
+##1 - Node Server Setup: server.js
 ```
 var http = require('http');
 var path = require('path');
@@ -53,15 +53,83 @@ var router = express();
 var server = http.createServer(router);
 var io = socketio.listen(server);
 
+router.use(bodyParser.urlencoded({
+  extended: true
+}));
+router.use(express.static(path.resolve(__dirname, 'client')));
+router.use(passport.initialize());
+router.use(passport.session());
+
 
 
 ```
 
 
 
-##2 - REST Middleware and Custom Services
+##2 - REST Middleware and Custom Services: server.js -continued
 ```
+router.post('/login/', function(req, res, next) {
+  console.log(req.body)
 
+  client.get('/accounts/{email}', {
+    email: req.body.username,
+    password: req.body.password
+  }, function(records) {
+    var authenticate = function() {
+      if (records) {
+        var token = jwt.sign({
+          username: req.body.username
+        }, jwtSecret);
+        res.json({
+          token: token
+        });
+      }
+      else {
+        res.json({
+          "message": "No User Found",
+          "error": "true"
+        });
+      }
+    };
+    authenticate();
+  });
+
+
+});
+
+router.post('/signup/', function(req, res, next) {
+
+  client.get('/accounts/', {}, function(records) {
+    //console.log(records.toObject().results);
+    var authenticate = function() {
+      var query = _.find(records.toObject().results, {
+        'email': req.body.email
+      });
+      if (query) {
+        res.json({
+          "message": "User Exsists",
+          "error": "true"
+        });
+      }
+      else {
+        console.log(req.body);
+        client.post('/accounts', {
+          email: req.body.email,
+          password: req.body.password,
+          type: 'individual',
+          first_name: req.body.first_name,
+          last_name: req.body.last_name
+        }, function(result) {
+          console.log(result);
+          res.json(result);
+        });
+
+      }
+    };
+    authenticate();
+  });
+
+});
 
 ```
 
