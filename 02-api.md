@@ -290,7 +290,7 @@ Records will be returned where searchable fields (i.e. name) match the search st
 
 Search fields are configured in a `model`. See <a href="">Data Modeling</a> for more information.
 
-Currently, search uses case-insensitive regular expression matching. This works for simple cases but is not ideal for product search, where fuzzy or phonetic matching is preferred. See the <a href="/roadmap">Product Roadmap</a> for a an estimate on our plan to support fuzzy and phonetic matching.
+Currently, search uses case-insensitive regular expression matching. This works for simple cases but is not ideal for product search, where fuzzy or phonetic matching is preferred.
 
 #### Query: Sort
 
